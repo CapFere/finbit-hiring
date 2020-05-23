@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import LineChart from "./core/LineChart";
 import PieChart from "./core/PieChart";
+
+import Filters from "./components/filters/filters.component";
 import "./style.css";
 
 const App = (props) => {
   // Your code goes here
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [noData, setNoData] = useState(true);
   const [selectedCountries, setSelectedCoutries] = useState({
     China: false,
     Italy: false,
@@ -41,10 +42,6 @@ const App = (props) => {
       [event.target.name]: event.target.value,
     });
   };
-  const renderOptions = () =>
-    Array.from(new Array(30), (val, index) => index + 1).map((number) => (
-      <option key={number}>{number}</option>
-    ));
   const calculateLineCharData = () => {
     const lineData = [];
     for (const index in data) {
@@ -125,48 +122,12 @@ const App = (props) => {
     <div>
       <h2>Data Has been loaded! Use filter bellow to display it</h2>
       <form>
-        <div>
-          <h4>Countries</h4>
-          <input
-            type="checkbox"
-            name="China"
-            checked={selectedCountries.China}
-            onChange={handleChange}
-          />
-          <label>China</label>
-          <input
-            type="checkbox"
-            name="Italy"
-            checked={selectedCountries.Italy}
-            onChange={handleChange}
-          />
-          <label>Italy</label>
-          <input
-            type="checkbox"
-            name="USA"
-            checked={selectedCountries.USA}
-            onChange={handleChange}
-          />
-          <label>USA</label>
-          <input
-            type="checkbox"
-            name="Spain"
-            checked={selectedCountries.Spain}
-            onChange={handleChange}
-          />
-          <label>Spain</label>
-        </div>
-        <div>
-          <h4>Duration</h4>
-          <label>Start Date</label>
-          <select value={dates.start} name="start" onChange={handleDateChange}>
-            {renderOptions()}
-          </select>
-          <label>End Date</label>
-          <select value={dates.end} name="end" onChange={handleDateChange}>
-            {renderOptions()}
-          </select>
-        </div>
+        <Filters
+          selectedCountries={selectedCountries}
+          dates={dates}
+          handleChange={handleChange}
+          handleDateChange={handleDateChange}
+        />
       </form>
       {loading ? (
         <h2>Loading....</h2>
