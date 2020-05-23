@@ -78,9 +78,11 @@ const App = (props) => {
         let currentTotalRecovery = 0;
         let currentTotalDeath = 0;
         for (const record of data[index].records) {
-          currentTotalCase += record.new;
-          currentTotalRecovery += record.recovered;
-          currentTotalDeath += record.death;
+          if (record.day >= dates.start && record.day <= dates.end) {
+            currentTotalCase += record.new;
+            currentTotalRecovery += record.recovered;
+            currentTotalDeath += record.death;
+          }
         }
 
         const diff = currentTotalCase - currentTotalRecovery;
